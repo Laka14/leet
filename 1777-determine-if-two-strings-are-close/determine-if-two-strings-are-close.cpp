@@ -3,24 +3,23 @@ public:
     bool closeStrings(string word1, string word2) {
         if(word1.size()!=word2.size()) return false;
 
-        map<char, int> mp1, mp2;
+        vector<int> v1(26), v2(26);
         for(int i=0; i<word1.size(); i++){
-            mp1[word1[i]]++;
+            v1[word1[i]-'a']++;
         }
         for(int i=0; i<word2.size(); i++){
-            mp2[word2[i]]++;
+            v2[word2[i]-'a']++;
         }
+        map<int, int> mp1, mp2;
+        for(int i =0; i<26; i++) {
+            if(min(v1[i], v2[i]) ==0 && max(v1[i], v2[i])>0) return false;
+            if(v1[i]) mp1[v1[i]]++;
+        }
+        for(int i =0; i<26; i++) {if(v2[i]) mp2[v2[i]]++;}
+    
         if(mp1.size()!=mp2.size()) return false;
-        map<int, int> mpa, mpb;
-        for(auto it : mp1){
-            if(mp2[it.first]==0) return false;
-            mpa[it.second]++;
-        }
-        for(auto it: mp2) mpb[it.second]++;
-
-        if(mpb.size()!=mpa.size()) return false;
-        for(auto it: mpa){
-            if(mpa[it.first]!=mpb[it.first]) return false;
+        for(auto it: mp1){
+            if(mp1[it.first]!=mp2[it.first]) return false;
         }
         return true;
     }
