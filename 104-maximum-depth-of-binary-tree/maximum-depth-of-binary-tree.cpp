@@ -13,8 +13,20 @@ class Solution {
 public:
     int maxDepth(TreeNode* root) {
         if(!root) return 0;
-        int left = maxDepth(root->left);
-        int right = maxDepth(root->right);
-        return max(left, right) + 1;
+        int depth = 0;
+        int maxi =0;
+        queue<TreeNode*> stk;
+        stk.push(root);
+        while(!stk.empty()){
+            depth++;
+            int s = stk.size();
+            for(int i = 0; i<s; i++){
+                TreeNode* node = stk.front();
+                stk.pop();
+                if(node->right!=NULL) stk.push(node->right);
+                if(node->left!=NULL) stk.push(node->left);
+            }
+        }
+        return depth;
     }
 };
