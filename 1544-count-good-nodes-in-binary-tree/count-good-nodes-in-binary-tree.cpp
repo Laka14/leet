@@ -11,21 +11,20 @@
  */
 class Solution {
 public:
+int cnt=0;
+void helper(TreeNode* root, int maxi){
+    if(!root) return;
+    if(root->val>=maxi) {
+        cnt++;
+        maxi = root->val;
+    }
+    helper(root->left, maxi);
+    helper(root->right, maxi);
+    return;
+}
     int goodNodes(TreeNode* root) {
-        int cnt=0;
-        if(!root) return 0;
-        
-        stack<pair<int , TreeNode*>> stk;
-        int r = root ->val;
-        stk.push({r, root});
-        while(!stk.empty()){
-            TreeNode* node = stk.top().second;
-            int maxi = stk.top().first;
-            stk.pop();
-            if(node->val >= maxi) cnt++;
-            if(node->left!=NULL) stk.push({max(maxi, node->val),node->left});
-            if(node->right!=NULL) stk.push({max(maxi, node->val), node->right}); 
-        }
+
+        helper(root, root->val);
         return cnt;
 
     }
